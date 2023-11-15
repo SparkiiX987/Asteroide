@@ -30,4 +30,16 @@ struct ProjectileE
     int ticks;
 };
 
+typedef struct ProjectileB ProjectileB;
+struct ProjectileB
+{
+    sfVector2f position;
+    float vitesse;
+    float dx;
+    float dy;
+    sfSprite* sprite;
+    int isShoot;
+    int ticks;
+};
+
 #endif

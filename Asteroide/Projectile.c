@@ -91,30 +91,82 @@ ProjectileE projectileEInit(sfSprite* sprite)
 
 void updatePE(ProjectileE* projectile, Soucoupe* soucoupe, Player* joueur)
 {
-	float dist;
-	projectile->vitesse = soucoupe->vitesse + 1;
-	if (projectile->isShoot == 0)
+	if (soucoupe->isDead == 0)
 	{
-		projectile->position.x = soucoupe->position.x;
-		projectile->position.y = soucoupe->position.y;
+		float dist;
+		projectile->vitesse = soucoupe->vitesse + 1;
+		if (projectile->isShoot == 0)
+		{
+			projectile->position.x = soucoupe->position.x;
+			projectile->position.y = soucoupe->position.y;
+		}
+		if (projectile->ticks > 10 && projectile->isShoot == 1)
+		{
+			projectile->position.x = projectile->position.x + projectile->dx * projectile->vitesse;
+			projectile->position.y = projectile->position.y + projectile->dy * projectile->vitesse;
+			projectile->ticks += -1;
+		}
+		if (projectile->ticks <= 10 && projectile->ticks != 0)
+		{
+			projectile->isShoot = 0;
+			projectile->ticks += -1;
+		}
+		if (projectile->ticks == 0)
+		{
+			projectile->isShoot = 1;
+			projectile->ticks = 100;
+			dist = sqrt((joueur->position.x * joueur->position.x) + (joueur->position.y * joueur->position.y));
+			projectile->dx = (joueur->position.x - soucoupe->position.x) / dist;
+			projectile->dy = (joueur->position.y - soucoupe->position.y) / dist;
+		}
 	}
-	if (projectile->ticks > 10 && projectile->isShoot == 1)
+}
+
+
+ProjectileB projectileBInit(sfSprite* sprite)
+{
+	ProjectileB projectile;
+	projectile.position.x = 0;
+	projectile.position.y = 0;
+	projectile.vitesse = 3;
+	projectile.dx = 0;
+	projectile.dy = 0;
+	projectile.sprite = sprite;
+	projectile.isShoot = 0;
+	projectile.ticks = 0;
+	return projectile;
+}
+
+
+void updatePB(ProjectileB* projectile, Boss* boss, Player* joueur)
+{
+	if (boss->isDead == 0)
 	{
-		projectile->position.x = projectile->position.x + projectile->dx * projectile->vitesse;
-		projectile->position.y = projectile->position.y + projectile->dy * projectile->vitesse;
-		projectile->ticks += -1;
-	}
-	if (projectile->ticks <= 10 && projectile->ticks != 0)
-	{
-		projectile->isShoot = 0;
-		projectile->ticks += -1;
-	}
-	if (projectile->ticks == 0)
-	{
-		projectile->isShoot = 1;
-		projectile->ticks = 100;
-		dist = sqrt((joueur->position.x * joueur->position.x) + (joueur->position.y * joueur->position.y));
-		projectile->dx = (joueur->position.x - soucoupe->position.x) / dist;
-		projectile->dy = (joueur->position.y - soucoupe->position.y) / dist;
+		float dist;
+		projectile->vitesse = boss->vitesse + 5;
+		if (projectile->isShoot == 0)
+		{
+			projectile->position.x = boss->position.x;
+			projectile->position.y = boss->position.y;
+		}
+		if (projectile->ticks > 10 && projectile->isShoot == 1)
+		{
+			projectile->position.x = projectile->position.x + projectile->dx * projectile->vitesse;
+			projectile->position.y = projectile->position.y + projectile->dy * projectile->vitesse;
+			projectile->ticks += -1;
+		}
+		if (projectile->ticks <= 10 && projectile->ticks != 0)
+		{
+			projectile->isShoot = 0;
+			projectile->ticks += -1;
+		}
+		if (projectile->ticks == 0)
+		{
+			projectile->isShoot = 1;
+			projectile->ticks = 100;
+			dist = sqrt((joueur->position.x * joueur->position.x) + (joueur->position.y * joueur->position.y));
+			projectile->dx = (joueur->position.x - boss->position.x) / dist;
+			projectile->dy = (joueur->position.y - boss->position.y) / dist;
+		}
 	}
 }

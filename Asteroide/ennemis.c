@@ -142,7 +142,7 @@ void updateEnnemis(Soucoupe* soucoupe, Boss* boss)
 	{
 		boss->position.x = boss->position.x + boss->dx * boss->vitesse;
 		boss->position.y = boss->position.y + boss->dy * boss->vitesse;
-		if (soucoupe->tickm == 0)
+		if (boss->tickm == 0)
 		{
 			boss->rotation = aleatoire(0, 360);
 			boss->dx = cosf(boss->rotation * PI / 180);
@@ -151,7 +151,7 @@ void updateEnnemis(Soucoupe* soucoupe, Boss* boss)
 		}
 		else
 		{
-			soucoupe->tickm += -1;
+			boss->tickm += -1;
 		}
 	}
 }

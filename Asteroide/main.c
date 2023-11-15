@@ -103,6 +103,7 @@ int main()
     Player joueur = initialisationJoueur(creerSprite(playerT, 12));
     Projectile projectile = projectileInit(creerSprite(projectileT, 4));
     ProjectileE projectilee = projectileEInit(creerSprite(projectileeT, 4));
+    ProjectileB projectileb = projectileBInit(creerSprite(projectileeT, 4));
     Soucoupe soucoupe = initEnnemis(creerSprite(soucoupeT, 16));
     Asteroids asteroids;
     Boss boss = initBoss(creerSprite(BossT, 64));
@@ -168,7 +169,7 @@ int main()
                 sfRenderWindow_drawSprite(w, asteroids.asteroid[i].sprite, NULL);
             }
 
-            if (asteroids.taille == 0)
+            if (asteroids.taille == 0 && boss.isDead == 1)
             {
                 asteroids.taille = 4;
                 generateAsteroids(&asteroids, grosC);
@@ -176,7 +177,7 @@ int main()
 
             for (int i = 0; i < asteroids.taille; i++)
             {
-                if (colVA(&joueur, &asteroids.asteroid[i]) == 1)
+                if (colVA(&joueur, &asteroids.asteroid[i]) == 1 && boss.isDead == 1)
                 {
                     joueur.isDead = 1;
                     sfText_setPosition(scoreTexte, (sfVector2f) { 800, 500 });
@@ -188,11 +189,12 @@ int main()
                     joueur.vitesse = 0;
                     joueur.rotation = 0;
                     score = 0;
+                    printf(" a ");
                 }
                 if ((colAP(&projectile, &asteroids.asteroid[i])) == 1 && projectile.isShoot == 1)
                 {
                     projectile.isShoot = 0;
-                    score += 500;
+                    score += 100;
                     updateP(&projectile, &joueur);
                     divisionA(&asteroids, &projectile, &joueur, i);
                 }
@@ -202,31 +204,36 @@ int main()
             {
                 if (score == 1000 || score == 2000 || score == 3000 || score == 4000)
                 {
-                    soucoupe.isDead = 1;
+                    soucoupe.isDead = 0;
                 }
-                if (score == 500 || score == 5000)
+                if (score == 2500 || score == 5000)
                 {
                     boss.isDead = 0;
+                    asteroids.taille = -1;
                     asteroids.taille = 0;
                 }
-                updateEnnemis(&soucoupe, &boss);
-                warpE(&soucoupe, &boss);
-                if (soucoupe.isDead == 0)
+                if (soucoupe.isDead == 0 || boss.isDead == 0)
                 {
-                    sfSprite_setPosition(soucoupe.sprite, soucoupe.position);
-                    sfRenderWindow_drawSprite(w, soucoupe.sprite, NULL);
-                    updatePE(&projectilee, &soucoupe, &joueur);
-                    sfSprite_setPosition(projectilee.sprite, projectilee.position);
-                    sfRenderWindow_drawSprite(w, projectilee.sprite, NULL);
-                }
-                if (boss.isDead == 0)
-                {
-                    sfSprite_setRotation(boss.sprite, boss.rotation + 90);
-                    sfSprite_setPosition(boss.sprite, boss.position);
-                    sfRenderWindow_drawSprite(w, boss.sprite, NULL);
-                    sfRenderWindow_drawSprite(w, projectilee.sprite, NULL);
-                    updatePE(&projectilee, &boss, &joueur);
+                    updateEnnemis(&soucoupe, &boss);
+                    warpE(&soucoupe, &boss);
+                    if (soucoupe.isDead == 0)
+                    {
+                        sfSprite_setPosition(soucoupe.sprite, soucoupe.position);
+                        sfRenderWindow_drawSprite(w, soucoupe.sprite, NULL);
+                        updatePE(&projectilee, &soucoupe, &joueur);
+                        sfSprite_setPosition(projectilee.sprite, projectilee.position);
+                        sfRenderWindow_drawSprite(w, projectilee.sprite, NULL);
+                    }
+                    if (boss.isDead == 0)
+                    {
+                        sfSprite_setRotation(boss.sprite, boss.rotation + 90);
+                        sfSprite_setPosition(boss.sprite, boss.position);
+                        sfSprite_setPosition(projectileb.sprite, projectileb.position);
+                        updatePB(&projectileb, &boss, &joueur);
+                        sfRenderWindow_drawSprite(w, boss.sprite, NULL);
+                        sfRenderWindow_drawSprite(w, projectileb.sprite, NULL);
 
+                    }
                 }
                 sfRenderWindow_drawSprite(w, projectile.sprite, NULL);
                 if (colPE(&projectile, &soucoupe) == 1 && joueur.isDead == 0)
