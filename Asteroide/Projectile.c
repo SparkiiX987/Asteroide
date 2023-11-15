@@ -25,7 +25,7 @@ Projectile projectileInit(sfSprite *sprite)
 
 void updateP(Projectile* projectile, Player* joueur)
 {
-	projectile->vitesse = 6 + joueur->vitesse;
+	projectile->vitesse = 12 + joueur->vitesse;
 	if (projectile->isShoot == 1 && projectile->ticks != 200)
 	{
 		projectile->position.x = projectile->position.x + projectile->dx * projectile->vitesse;

@@ -206,7 +206,7 @@ int main()
                 {
                     soucoupe.isDead = 0;
                 }
-                if (score == 2500 || score == 5000)
+                if (score == 500 || score == 5000)
                 {
                     boss.isDead = 0;
                     asteroids.taille = -1;
@@ -247,6 +247,7 @@ int main()
                     if (boss.health > 0)
                     {
                         boss.health += -1;
+                        projectile.isShoot = 0;
                     }
                     if(boss.health == 0)
                     {

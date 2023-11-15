@@ -50,7 +50,7 @@ void inputs(Player* joueur)
 		{
 			if (joueur->vitesse < 8)
 			{
-				joueur->vitesse += 1;
+				joueur->vitesse += 0.5;
 			}
 			joueur->dx = cosf(joueur->rotation * PI / 180);
 			joueur->dy = sinf(joueur->rotation * PI / 180);
