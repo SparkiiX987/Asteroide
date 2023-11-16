@@ -6,6 +6,7 @@
 #ifndef Projectile_H
 #define Projectile_H
 
+// structure pour le procjectile du joueur
 typedef struct Projectile Projectile;
 struct Projectile
 {
@@ -17,7 +18,7 @@ struct Projectile
     int isShoot;
     int ticks;
 };
-
+// structure pour le procjectile de la soucoupe
 typedef struct ProjectileE ProjectileE;
 struct ProjectileE
 {
@@ -29,7 +30,7 @@ struct ProjectileE
     int isShoot;
     int ticks;
 };
-
+// structure pour le procjectile du boss
 typedef struct ProjectileB ProjectileB;
 struct ProjectileB
 {

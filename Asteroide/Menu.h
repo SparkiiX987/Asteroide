@@ -6,6 +6,7 @@
 #ifndef MENU_H
 #define MENU_H
 
+// réferencie les fonction de boutons
 int start(sfWindow* w, sfVector2i mousePos);
 void exitGame(sfWindow* w, sfVector2i mousePos);
 int restart(sfWindow* w, sfVector2i mousePos);

@@ -19,6 +19,7 @@ float aleatoire(int min, int max)
 	return (float)(rand() % (max + 1 - min)) + min;
 }
 
+// initialise les asteroids
 Asteroid initialisationAsteroids(int taille)
 {
 	Asteroid asteroid;
@@ -37,12 +38,14 @@ Asteroid initialisationAsteroids(int taille)
 	return asteroid;
 }
 
+// met a jour la position des asteroids
 void updateA(Asteroid* asteroid)
 {
 	asteroid->position.x = asteroid->position.x + asteroid->dx * asteroid->vitesse;
 	asteroid->position.y = asteroid->position.y + asteroid->dy * asteroid->vitesse;
 }
 
+// fait reaparaitre les asteroids de l'autre coter de l'écran
 void warpA(Asteroid* asteroid)
 {
 	if (asteroid->position.y < -5)
@@ -63,7 +66,7 @@ void warpA(Asteroid* asteroid)
 	}
 }
 
-
+// collision entre le projecile du joueur et l'asteroide
 int colAP(Projectile* projectile, Asteroid* asteroid)
 {
 	int AsteroidR;
@@ -92,8 +95,4 @@ int colAP(Projectile* projectile, Asteroid* asteroid)
 	}
 
 	return 0;
-
-
-	free(Projectile);
-	free(AsteroidR);
 }

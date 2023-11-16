@@ -9,7 +9,7 @@
 #include "math.h"
 #define PI 3.14159265
 
-
+// initialise la soucoupe
 Soucoupe initEnnemis(sfSprite* sprite)
 {
     Soucoupe soucoupe;
@@ -24,7 +24,7 @@ Soucoupe initEnnemis(sfSprite* sprite)
 	soucoupe.tickm = 150;
     return soucoupe;
 }
-
+// initialise le boss
 Boss initBoss(sfSprite* sprite)
 {
 	Boss boss;
@@ -41,7 +41,7 @@ Boss initBoss(sfSprite* sprite)
 	boss.health = 5;
 	return boss;
 }
-
+// fait apparaitre la soucoupe et le boss de l'autre coté de l'écran si il tente de sortir
 void warpE(Soucoupe* soucoupe, Boss* boss)
 {
 	if (soucoupe->isDead == 0)
@@ -84,25 +84,29 @@ void warpE(Soucoupe* soucoupe, Boss* boss)
 	}
 	
 }
-
+// fonction de collision entre le projectile du joueur et la soucoupe toutes les autres collisons sont fait avec le meme principe
 int colPE(Projectile* projectile, Soucoupe* soucoupe)
 {
+	// imaginons que l'on creer un cercle toute autour de nos deux entitées
+	// récupère le rayon de la soucoupe et du projectile
 	int SoucoupeR = 15;
-	int Projectile = 4;
-	int PX = projectile->position.x + Projectile;
-	int PY = projectile->position.y + Projectile;
+	int ProjectileR = 4;
+	// récupère la position de l'entiter + son rayon
+	int PX = projectile->position.x + ProjectileR;
+	int PY = projectile->position.y + ProjectileR;
 	int SX = soucoupe->position.x + SoucoupeR;
 	int SY = soucoupe->position.y + SoucoupeR;
-
+	// calcul la distance entre les deux entitées
 	int distance = (PX - SX) * (PX - SX) + (PY - SY) * (PY - SY);
-	if (distance < (Projectile + SoucoupeR) * (Projectile + SoucoupeR) && projectile->isShoot == 1)
+	// si cette distance est inferireur aux deux rayons alors il y a collisions
+	if (distance < (ProjectileR + SoucoupeR) * (ProjectileR + SoucoupeR) && projectile->isShoot == 1)
 	{
 		return 1;
 	}
 
 	return 0;
 }
-
+// fonction de collision entre le projectile du joueur et le boss
 int colPB(Projectile* projectile, Boss* boss)
 {
 	int BossR = 32;
@@ -120,14 +124,17 @@ int colPB(Projectile* projectile, Boss* boss)
 
 	return 0;
 }
-
+// met a jour la soucoupe et du boss ( fait ses deplacements et gère sa orientation ) 
 void updateEnnemis(Soucoupe* soucoupe, Boss* boss)
 {
+	// si la soucoupe est active
 	if (soucoupe->isDead == 0)
 	{
+		// deplacement
 		soucoupe->position.x = soucoupe->position.x + soucoupe->dx * soucoupe->vitesse;
 		soucoupe->position.y = soucoupe->position.y + soucoupe->dy * soucoupe->vitesse;
-		if (soucoupe->tickm == 0)
+		// apres un certain temps fait tourner la soucoupe dans une direction aléatoire
+		if (soucoupe->tickm == 0) // temps avant que la soucoupe change d'orientation
 		{
 			soucoupe->dx = cosf(aleatoire(0, 360) * PI / 180);
 			soucoupe->dy = sinf(aleatoire(0, 360) * PI / 180);
@@ -138,6 +145,7 @@ void updateEnnemis(Soucoupe* soucoupe, Boss* boss)
 			soucoupe->tickm += -1;
 		}
 	}
+	// pareil pour le boss
 	if (boss->isDead == 0)
 	{
 		boss->position.x = boss->position.x + boss->dx * boss->vitesse;

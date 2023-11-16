@@ -22,6 +22,7 @@ struct Asteroid
     sfSprite* sprite;
 };
 
+// liste qui stocks touts les asteroids
 typedef struct Asteroids Asteroids;
 struct Asteroids
 {

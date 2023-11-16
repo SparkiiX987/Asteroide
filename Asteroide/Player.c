@@ -10,7 +10,7 @@
 #include "stdlib.h"
 #define PI 3.14159265
 
-
+// initialise le joueur
 Player initialisationJoueur(sfSprite *sprite)
 {
 	Player joueur;
@@ -25,16 +25,18 @@ Player initialisationJoueur(sfSprite *sprite)
 	return joueur;
 }
 
+// deplace le joueur
 void update(Player* joueur)
 {
 	joueur->position.x = joueur->position.x + joueur->dx * joueur->vitesse;
 	joueur->position.y = joueur->position.y + joueur->dy * joueur->vitesse;
 }
-
+// gère les inputs du joueur ( pour tourner avancer et freinner
 void inputs(Player* joueur)
 {	
 	if (joueur->isDead != 1)
 	{
+		// pour tourner
 		if (sfKeyboard_isKeyPressed(sfKeyD))
 		{
 			joueur->rotation += 5.5;
@@ -45,7 +47,7 @@ void inputs(Player* joueur)
 			joueur->rotation += -5.5;
 
 		}
-
+		// pour avancer
 		if (sfKeyboard_isKeyPressed(sfKeyZ))
 		{
 			if (joueur->vitesse < 8)
@@ -56,6 +58,15 @@ void inputs(Player* joueur)
 			joueur->dy = sinf(joueur->rotation * PI / 180);
 
 		}
+		// poure freinner
+		else if (sfKeyboard_isKeyPressed(sfKeyS))
+		{
+			if (joueur->vitesse > 0)
+			{
+				joueur->vitesse += - 0.3;
+			}
+		}
+		// ralentit le joueur si il n'avance pas
 		else
 		{
 			joueur->vitesse = joueur->vitesse * 0.99;
@@ -63,6 +74,7 @@ void inputs(Player* joueur)
 	}
 }
 
+// fait reaparaitre le joueur de l'autre coté de l'écran si il tente de sortir
 void warp(Player* joueur)
 {
 	if (joueur->position.y < -5)
@@ -83,10 +95,12 @@ void warp(Player* joueur)
 	}
 }
 
+// gère les collisions entre l'asteroide et le joueur
 int colVA(Player* joueur, Asteroid* asteroid)
 {
 	int AsteroidR;
 	int playerR = 16;
+	// définit le rayon de l'asteroids en fonction de sa taille
 	if (asteroid->taille == 2)
 	{
 		AsteroidR = 64;
@@ -112,7 +126,7 @@ int colVA(Player* joueur, Asteroid* asteroid)
 			
 	return 0;
 }
-
+// gère les collisions entre le projectile de l'enemis et le joueur
 int colVP(Player* joueur, ProjectileE* projectile)
 {
 	int ProjectileR = 8;

@@ -7,6 +7,8 @@
 #include "Asteroids.h"
 #include "ennemis.h"
 
+// réferencie toutes les fonctions et procédure des fichier .c
+
 #ifndef REF_H
 #define REF_H
 

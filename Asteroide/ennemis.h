@@ -6,6 +6,7 @@
 #ifndef ENNEMIS_H
 #define ENNEMIS_H
 
+// structure de la soucoupe
 typedef struct Soucoupe Soucoupe;
 struct Soucoupe
 {
@@ -19,7 +20,7 @@ struct Soucoupe
     int ticks;
     int tickm;
 };
-
+// structure du boss
 typedef struct Boss Boss;
 struct Boss
 {

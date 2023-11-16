@@ -4,8 +4,13 @@
 #include <SFML/System.h>
 #include "stdio.h"
 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ //toutes ces fonction retourne 1 si on clique à l'endroit ou le bouton est sur l'écran sauf exitGame qui quitte completement le jeu//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int start(sfWindow* w, sfVector2i mousePos)
 {
+	// si la souris est bien dans les coordonée du bouton et qui le boutton gauche est cliquer
 	if ((mousePos.x > 675 && mousePos.x < 1271) && (mousePos.y > 254 && mousePos.y < 408) && sfMouse_isButtonPressed(sfMouseLeft))
 	{
 		return 1;
