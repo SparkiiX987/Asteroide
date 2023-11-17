@@ -96,30 +96,27 @@ ProjectileE projectileEInit(sfSprite* sprite)
 // met a jour la position du projectile de la soucoupe et le tire a intervale regulier sur le joueur
 void updatePE(ProjectileE* projectile, Soucoupe* soucoupe, Player* joueur)
 {
+	projectile->vitesse = soucoupe->vitesse + 12;
 	if (soucoupe->isDead == 0)
 	{
-		float dist; // varriable utiliser pour calculer la distance entre la soucoupe et le joueur
-		projectile->vitesse = soucoupe->vitesse + 1;
-		// tire le projectile si le projectile
-		if (projectile->isShoot == 0 && projectile->ticks == 0)
+		float dist;
+		projectile->vitesse = soucoupe->vitesse + 5;
+		if (projectile->isShoot == 0)
 		{
 			projectile->position.x = soucoupe->position.x;
 			projectile->position.y = soucoupe->position.y;
 		}
-		// détruit le projectile un certain temps apres avoir ete tirer
 		if (projectile->ticks > 10 && projectile->isShoot == 1)
 		{
 			projectile->position.x = projectile->position.x + projectile->dx * projectile->vitesse;
 			projectile->position.y = projectile->position.y + projectile->dy * projectile->vitesse;
 			projectile->ticks += -1;
 		}
-		// apres un certain temps d'attente le projectile de l'ennemis peut etre retirer
 		if (projectile->ticks <= 10 && projectile->ticks != 0)
 		{
 			projectile->isShoot = 0;
 			projectile->ticks += -1;
 		}
-		// si le projectile peut etre tirer la soucoupe vise le joueur sur sa position
 		if (projectile->ticks == 0)
 		{
 			projectile->isShoot = 1;
