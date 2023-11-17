@@ -74,6 +74,7 @@ int main()
     // met la taille du score a 12 characters max et initialise le score
     char str[12];
     int score = 0;
+    int difficulte = 1;
     // initialise les textures
     sfTexture* playerT = sfTexture_createFromFile("textures/Player.png", NULL);
     sfTexture* projectileT = sfTexture_createFromFile("textures/Projectile.png", NULL);
@@ -113,19 +114,22 @@ int main()
     Asteroids asteroids;
     Boss boss = initBoss(creerSprite(BossT, 64));
     sfSprite_setScale(boss.sprite, (sfVector2f) { 0.08, 0.08 });
-    asteroids.taille = 4;
-    generateAsteroids(&asteroids, grandAsteroid);
 
     // creer le srite du menu et celui de l'ecran de game over
     sfTexture* MenuT = sfTexture_createFromFile("textures/Menu.png", NULL);
     sfSprite* MenuS = sfSprite_create();
     sfSprite_setTexture(MenuS, MenuT, NULL);
 
+    sfTexture* DiffT = sfTexture_createFromFile("textures/difficulte.png", NULL);
+    sfSprite* DiffS = sfSprite_create();
+    sfSprite_setTexture(DiffS, DiffT, NULL);
+
     sfTexture* gameOverT = sfTexture_createFromFile("textures/GameOver.png", NULL);
     sfSprite* gameOverS = sfSprite_create();
     sfSprite_setTexture(gameOverS, gameOverT, NULL);
     // creer la variable qui récupère la position de la souris
-    sfVector2i mousePos;
+    sfVector2i mousePos; 
+    int inDiff = 0; // varriable pour verifier si le joueur est dans le choix de difficulte ou dans le jeu 1 = dans le choix de difficulte, 0 = pas dans le choix de difficulte
     int inMenu = 1; // varriable pour verifier si le joueur est dans le menu ou dans le jeu 1 = dans les menu, 0 = pas dans les menu
 
     while (sfRenderWindow_isOpen(w))
@@ -140,12 +144,33 @@ int main()
         // si le joueur est dans le menu 
         if (inMenu == 1)
         {
-            sfRenderWindow_drawSprite(w, MenuS, NULL);
-            // pour quitter le jeu
-            exitGame(w, mousePos);
-            // pour lancer le jeu
-            if (start(w, mousePos) == 1)
-                inMenu = 0;
+            if (inDiff == 0)
+            {
+                sfRenderWindow_drawSprite(w, MenuS, NULL);
+                // pour quitter le jeu
+                exitGame(w, mousePos);
+                // pour lancer le jeu
+                if (difficultee(w, mousePos) == 1)
+                {
+                    inDiff = 1;
+                }
+                if (start(w, mousePos) == 1)
+                {
+                    asteroids.taille = 4;
+                    generateAsteroids(&asteroids, grandAsteroid);
+                    inMenu = 0;
+                }
+            }
+            if (inDiff == 1)
+            {
+                sfRenderWindow_drawSprite(w, DiffS, NULL);
+                difficulte = changeDiff(w, mousePos, difficulte);
+                if (retourMenu(w, mousePos, inMenu) == 1)
+                {
+                    inDiff = 0;
+                }
+
+            }
             sfRenderWindow_display(w);
 
         }
@@ -203,7 +228,7 @@ int main()
                 }
 
                 // update le joueur
-                inputs(&joueur);
+                inputs(&joueur, difficulte);
                 shootInput(&projectile, &joueur);
                 warp(&joueur);
                 update(&joueur);
@@ -215,7 +240,7 @@ int main()
                     soucoupe.isDead = 0;
                 }
                 // fait apparaitre le boss à un certain pallier de score
-                if (score == 2500 || score == 5000)
+                if (score == 100 || score == 5000)
                 {
                     boss.isDead = 0;
                     asteroids.taille = -1;
@@ -315,7 +340,7 @@ int main()
                     generateAsteroids(&asteroids, grandAsteroid);
                 }
                 // pour retourner au menu
-                if (retourMenu(w, mousePos) == 1)
+                if (retourMenu(w, mousePos, inMenu) == 1)
                 {
                     inMenu = 1;
                     joueur.isDead = 0;

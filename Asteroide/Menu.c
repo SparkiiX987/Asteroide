@@ -34,9 +34,35 @@ int restart(sfWindow* w, sfVector2i mousePos)
 	return 0;
 }
 
-int retourMenu(sfWindow* w, sfVector2i mousePos)
+int retourMenu(sfWindow* w, sfVector2i mousePos, int menu)
 {
-	if ((mousePos.x > 1226 && mousePos.x < 1756) && (mousePos.y > 662 && mousePos.y < 963) && sfMouse_isButtonPressed(sfMouseLeft))
+	if (((mousePos.x > 1226 && mousePos.x < 1756) && (mousePos.y > 662 && mousePos.y < 963) && sfMouse_isButtonPressed(sfMouseLeft) && menu == 0) || ((mousePos.x > 730 && mousePos.x < 1140) && (mousePos.y > 900 && mousePos.y < 1050) && sfMouse_isButtonPressed(sfMouseLeft) && menu == 1))
+	{
+		return 1;
+	}
+	return 0;
+}
+
+int changeDiff(sfWindow* w, sfVector2i mousePos, int diff)
+{
+	if ((mousePos.x > 668 && mousePos.x < 1186) && (mousePos.y > 80 && mousePos.y < 300) && sfMouse_isButtonPressed(sfMouseLeft))
+	{
+		return 1;
+	}
+	if ((mousePos.x > 748 && mousePos.x < 1262) && (mousePos.y > 342 && mousePos.y < 566) && sfMouse_isButtonPressed(sfMouseLeft))
+	{
+		return 2;
+	}
+	if ((mousePos.x > 616 && mousePos.x < 1178) && (mousePos.y > 600 && mousePos.y < 710) && sfMouse_isButtonPressed(sfMouseLeft))
+	{
+		return 3;
+	}
+	return diff;
+}
+
+int difficultee(sfWindow* w, sfVector2i mousePos)
+{
+	if ((mousePos.x > 695 && mousePos.x < 1240) && (mousePos.y > 471 && mousePos.y < 620) && sfMouse_isButtonPressed(sfMouseLeft))
 	{
 		return 1;
 	}

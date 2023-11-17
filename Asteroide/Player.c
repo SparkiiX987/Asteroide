@@ -32,27 +32,50 @@ void update(Player* joueur)
 	joueur->position.y = joueur->position.y + joueur->dy * joueur->vitesse;
 }
 // gère les inputs du joueur ( pour tourner avancer et freinner
-void inputs(Player* joueur)
+void inputs(Player* joueur, int diff)
 {	
 	if (joueur->isDead != 1)
 	{
 		// pour tourner
 		if (sfKeyboard_isKeyPressed(sfKeyD))
 		{
-			joueur->rotation += 5.5;
+			if (diff == 1 || diff == 2)
+				joueur->rotation += 5.5;
+			if (diff == 3)
+				joueur->rotation += -5.5;
 		}
 
 		if (sfKeyboard_isKeyPressed(sfKeyQ))
 		{
-			joueur->rotation += -5.5;
+			if (diff == 1 || diff == 2)
+				joueur->rotation += -5.5;
+			if (diff == 3)
+				joueur->rotation += 5.5;
 
 		}
 		// pour avancer
 		if (sfKeyboard_isKeyPressed(sfKeyZ))
 		{
-			if (joueur->vitesse < 8)
+			if (diff == 1)
 			{
-				joueur->vitesse += 0.5;
+				if (joueur->vitesse < 8)
+				{
+					joueur->vitesse += 0.5;
+				}
+			}
+			if (diff == 2)
+			{
+				if (joueur->vitesse < 20)
+				{
+					joueur->vitesse += 0.5;
+				}
+			}
+			if (diff == 3)
+			{
+				if (joueur->vitesse > 0)
+				{
+					joueur->vitesse += -0.3;
+				}
 			}
 			joueur->dx = cosf(joueur->rotation * PI / 180);
 			joueur->dy = sinf(joueur->rotation * PI / 180);
@@ -63,7 +86,17 @@ void inputs(Player* joueur)
 		{
 			if (joueur->vitesse > 0)
 			{
-				joueur->vitesse += - 0.3;
+				if (diff == 1 || diff == 2)
+					joueur->vitesse += - 0.3;
+			}
+			if (diff == 3)
+			{
+				if (joueur->vitesse < 8)
+				{
+					joueur->vitesse += 0.5;
+				}
+				joueur->dx = cosf(joueur->rotation * PI / 180);
+				joueur->dy = sinf(joueur->rotation * PI / 180);
 			}
 		}
 		// ralentit le joueur si il n'avance pas

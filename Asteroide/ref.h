@@ -18,7 +18,7 @@ void shootInput(Projectile* projectile, Player* joueur);
 Asteroid initialisationAsteroids(int taille);
 void updateA(Asteroid* asteroid);
 void warpA(Asteroid* asteroid);
-void inputs(Player* joueur);
+void inputs(Player* joueur, int diff);
 Player initialisationJoueur(sfSprite* sprite);
 void warp(Player* joueur);
 void update(Player* joueur);
