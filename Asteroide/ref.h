@@ -36,5 +36,6 @@ int colPB(Projectile* projectile, Boss* boss);
 Boss initBoss(sfSprite* sprite);
 ProjectileB projectileBInit(sfSprite* sprite);
 void updatePB(ProjectileB* projectile, Boss* boss, Player* joueur);
+int colVPB(Player* joueur, ProjectileB* projectile);
 
 #endif

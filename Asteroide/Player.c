@@ -177,3 +177,22 @@ int colVP(Player* joueur, ProjectileE* projectile)
 
 	return 0;
 }
+
+// gère les collisions entre le projectile du boss et le joueur
+int colVPB(Player* joueur, ProjectileB* projectile)
+{
+	int ProjectileR = 8;
+	int playerR = 16;
+	int PX = joueur->position.x + playerR;
+	int PY = joueur->position.y + playerR;
+	int AX = projectile->position.x + ProjectileR;
+	int AY = projectile->position.y + ProjectileR;
+
+	int distance = (PX - AX) * (PX - AX) + (PY - AY) * (PY - AY);
+	if (distance < (playerR + ProjectileR) * (playerR + ProjectileR))
+	{
+		return 1;
+	}
+
+	return 0;
+}

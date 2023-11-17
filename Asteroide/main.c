@@ -210,6 +210,8 @@ int main()
                         joueur.vitesse = 0;
                         joueur.rotation = 0;
                         score = 0;
+                        soucoupe.isDead = 1;
+                        boss.isDead = 1;
                     }
                     // vérifie si le projectile du joueur touche un asteroid
                     if ((colAP(&projectile, &asteroids.asteroid[i])) == 1 && projectile.isShoot == 1)
@@ -240,7 +242,7 @@ int main()
                     soucoupe.isDead = 0;
                 }
                 // fait apparaitre le boss à un certain pallier de score
-                if (score == 100 || score == 5000)
+                if (score == 2500 || score == 5000)
                 {
                     boss.isDead = 0;
                     asteroids.taille = -1;
@@ -310,6 +312,22 @@ int main()
                         joueur.position.y = 500;
                         joueur.rotation = 0;
                         joueur.vitesse = 0;
+                        soucoupe.isDead = 1;
+                        boss.isDead = 1;
+                    }
+                    if (colVPB(&joueur, &projectileb) == 1)
+                    {
+                        joueur.isDead = 1;
+                        sfText_setPosition(scoreTexte, (sfVector2f) { 800, 500 });
+                        sfText_setPosition(scoreInt, (sfVector2f) { 975, 500 });
+                        sfText_setCharacterSize(scoreTexte, 50);
+                        sfText_setCharacterSize(scoreInt, 50);
+                        joueur.position.x = 500;
+                        joueur.position.y = 500;
+                        joueur.rotation = 0;
+                        joueur.vitesse = 0;
+                        soucoupe.isDead = 1;
+                        boss.isDead = 1;
                     }
                 }
                 sfRenderWindow_drawSprite(w, projectile.sprite, NULL);
